@@ -14,10 +14,17 @@ ENV_DIR=$3
 export_env_dir "$ENV_DIR"
 
 LATEST_VERSION=$(get_latest_release "42wim/matterbridge")
+VERSION=$(version "$LATEST_VERSION")
 MATTERBRIDGE_VERSION="${MATTERBRIDGE_VERSION:-$LATEST_VERSION}"
-MATTERBRIDGE_URL="${MATTERBRIDGE_URL:-https://github.com/42wim/matterbridge/releases/download/$MATTERBRIDGE_VERSION/matterbridge-linux-amd64}"
+MATTERBRIDGE_URL="${MATTERBRIDGE_URL:-https://github.com/42wim/matterbridge/releases/download/$MATTERBRIDGE_VERSION/matterbridge-$VERSION-linux-64bit}"
 
-echo "-----> Downloading Matterbridge: $MATTERBRIDGE_URL"
-cd $BUILD_DIR
-curl --silent --location "$MATTERBRIDGE_URL" --output matterbridge
-chmod +x matterbridge
+response=$(curl --head -o /dev/null -s -w %{http_code} $MATTERBRIDGE_URL)
+if [ $response -eq "302" ]
+then
+        echo "-----> Downloading Matterbridge: $MATTERBRIDGE_URL"
+        curl -s -L $MATTERBRIDGE_URL -o matterbridge
+        chmod +x matterbridge
+        chmod +x start.sh
+else
+        echo "ERROR: remote location of matterbridge compiled file is wrong"
+fi
