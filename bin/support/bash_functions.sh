@@ -12,7 +12,7 @@ get_latest_release() {
 }
 
 version() {
-  return $($1:0:1)
+  return ${"$1":0:1}
 }
 
 # See: https://devcenter.heroku.com/articles/buildpack-api#bin-compile-summary
