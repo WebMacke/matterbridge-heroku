@@ -14,7 +14,7 @@ ENV_DIR=$3
 export_env_dir "$ENV_DIR"
 
 LATEST_VERSION=$(get_latest_release "42wim/matterbridge")
-VERSION=$(version "$LATEST_VERSION")
+VERSION=${"$LATEST_VERSION":0:1}
 MATTERBRIDGE_VERSION="${MATTERBRIDGE_VERSION:-$LATEST_VERSION}"
 MATTERBRIDGE_URL="${MATTERBRIDGE_URL:-https://github.com/42wim/matterbridge/releases/download/$MATTERBRIDGE_VERSION/matterbridge-$VERSION-linux-64bit}"
 

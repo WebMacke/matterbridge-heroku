@@ -11,10 +11,6 @@ get_latest_release() {
     sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
 }
 
-version() {
-  return ${"$1":0:1}
-}
-
 # See: https://devcenter.heroku.com/articles/buildpack-api#bin-compile-summary
 export_env_dir() {
   env_dir=$1
